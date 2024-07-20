@@ -1,4 +1,3 @@
-
 #include "MainWindow.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -94,6 +93,29 @@ void MainWindow::init_game_area(){
    m_timer->start(500);
 }
 
+void MainWindow::update_game_area(){
+    if(!m_board->canMoveCurrentPieceDown()){
+        m_board->dropCurrentPiece();
+        m_board->setCurrentPiece(m_board->getNextPiece());
+        m_board->setNextPiece(TetrominoFactory::generateRandomTetromino());
+        m_renderPreview.setTetromino(m_board->getNextPiece());
+        if(int l = m_board->removeCompletedLines()){
+            m_lines += l;
+            addScore(l);
+            m_labelLines.setText(QString("Lines\n") + QString::number(m_lines));
+            m_labelScore.setText(QString("Score\n") + QString::number(m_score));
+        }else if(m_board->isGameOver()){
+            m_renderGame.setGameOver(true);
+            m_renderGame.update();
+            m_timer->stop();
+        }
+        m_renderPreview.update();
+    }else{
+        m_board->getCurrentPiece()->setY(m_board->getCurrentPiece()->getY() + 1);
+    }
+    m_renderGame.update();
+}
+
 void MainWindow::addScore(const int completedLines){
     switch(completedLines) {
         case 1:
@@ -110,5 +132,31 @@ void MainWindow::addScore(const int completedLines){
             break;
         default:
             throw std::runtime_error("Can't complete more than 4 lines at once.");
+    }
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent* e){
+    // Change piece coordinates after checking if it can moves in
+    // the pressed direction and rendering the move.
+    if(e->key() == Qt::Key_Left){
+        if(m_board->canMoveCurrentPieceLeft()){
+            m_renderGame.update();
+            m_board->getCurrentPiece()->setX(m_board->getCurrentPiece()->getX() - 1);
+        }
+    }else if(e->key() == Qt::Key_Right){
+        if(m_board->canMoveCurrentPieceRight()){
+            m_renderGame.update();
+            m_board->getCurrentPiece()->setX(m_board->getCurrentPiece()->getX() + 1);
+        }
+    }else if(e->key() == Qt::Key_Up){
+        if(m_board->canRotateCurrentPiece()){
+            m_renderGame.update();
+            m_board->getCurrentPiece()->setOrientation((m_board->getCurrentPiece()->getOrientation() + 1) % 4);
+        }
+    }else if(e->key() == Qt::Key_Down){
+        if(m_board->canMoveCurrentPieceDown()){
+            m_renderGame.update();
+            m_board->getCurrentPiece()->setY(m_board->getCurrentPiece()->getY() + 1);
+        }
     }
 }
