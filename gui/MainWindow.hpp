@@ -35,28 +35,35 @@ namespace Tetris{
             ~MainWindow();
 
         public slots:
-            void init_game_area();
-            void update_game_area();
-            void pause_game();
-            void change_piece_randomizer();
+            void initGameArea();
+            void updateGameArea();
+            void pauseGame();
+            void changePiecePandomizer();
 
         private:
             /*
              * Initialize window' properties (size, position...).
              * */
-            void init_window();
+            void initWindow();
 
             /*
              * Initialize window' widget' properties.
              * */
-            void init_widgets();
+            void initWidgets();
 
             void addScore(const int);
+
+            /**
+             * @brief connectWidgets gathers every connection for widgets and their signals.
+             */
+            void connectWidgets();
 
             QPushButton m_buttonStart;
             QPushButton m_buttonPause;
             QPushButton m_buttonAbout;
             QComboBox m_comboRandomizer;
+            QComboBox m_comboLanguage;
+            QLabel m_labelLanguage;
             QLabel m_labelRandomizer;
             QLabel m_labelNext;
             QLabel m_labelLines;
@@ -67,6 +74,8 @@ namespace Tetris{
             Tetris::gui::RendererPreview m_renderPreview;
 
             QHBoxLayout m_layoutMain;
+            QHBoxLayout m_layoutRandomizer;
+            QHBoxLayout m_layoutLanguage;
             QVBoxLayout m_layoutInformations;
             QHBoxLayout m_layoutButtons;
 
@@ -75,6 +84,8 @@ namespace Tetris{
             std::unique_ptr<QTimer> m_timer;
 
             std::function<std::unique_ptr<Tetris::core::Tetromino>()> m_pieceRandomizer;
+
+            std::unique_ptr<QWidget> m_mainWidget;
 
             /**
              * @brief m_lines is the number of completed lines.
@@ -110,6 +121,11 @@ namespace Tetris{
              * @brief m_timeDecreaseRate is the update's time decrease rate.
              */
             const double m_timeDecreaseRate = 0.20;
+
+            /**
+             * @brief m_comboBoxWidth is the width used for comboxBox widgets.
+             */
+            const int m_comboBoxWidth = 150;
 
         protected:
             void keyReleaseEvent(QKeyEvent* e) override;
