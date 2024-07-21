@@ -51,8 +51,20 @@ void Tetris::gui::MainWindow::init_widgets(){
     m_comboRandomizer.addItem("uniform randomizer");
     m_comboRandomizer.addItem("7-bag randomizer");
     m_comboRandomizer.setFocusPolicy(Qt::FocusPolicy::NoFocus);
+
+    m_messageBox.setText(QString("This application is written in C++14 with Qt6 and OpenGL libraries.\n"
+                                 "Have a look at the <a href=\"https://gitlab.com/boreec/tetris/\">source code</a>.\n"
+                                 " You can also have a look at my personal <a href=\"https://boreec.fr/projects/\">website</a>"
+                                 " where I have more projects."));
+    m_messageBox.setTextFormat(Qt::RichText);
+    m_messageBox.setTextInteractionFlags(Qt::TextBrowserInteraction);
+
+    m_messageBox.setIcon(QMessageBox::Information);
+
     QObject::connect(&m_comboRandomizer, SIGNAL(currentTextChanged(QString)), this, SLOT(change_piece_randomizer()));
     QObject::connect(&m_buttonStart, SIGNAL(clicked()), this, SLOT(init_game_area()));
+    QObject::connect(&m_buttonPause, SIGNAL(clicked()), this, SLOT(pause_game()));
+    QObject::connect(&m_buttonAbout, SIGNAL(clicked()), &m_messageBox, SLOT(exec()));
 
     m_layoutButtons.addWidget(&m_buttonStart);
     m_layoutButtons.addWidget(&m_buttonPause);
@@ -79,26 +91,31 @@ void Tetris::gui::MainWindow::init_widgets(){
 }
 
 void Tetris::gui::MainWindow::init_game_area(){
-   m_board.clear();
-   m_board.setCurrentPiece(m_pieceRandomizer());
-   m_board.setNextPiece(m_pieceRandomizer());
-   m_renderGame.setBoard(&m_board);
-   m_renderGame.setGameOver(false);
+   if(m_buttonStart.text() == "resume"){
+       m_timer->start();
+       m_buttonStart.setText("restart");
+   }else{
+       m_board.clear();
+       m_board.setCurrentPiece(m_pieceRandomizer());
+       m_board.setNextPiece(m_pieceRandomizer());
+       m_renderGame.setBoard(&m_board);
+       m_renderGame.setGameOver(false);
 
-   m_renderPreview.setTetromino(m_board.getNextPiece());
-   m_renderPreview.update();
-   m_buttonStart.setText(QString("Restart"));
+       m_renderPreview.setTetromino(m_board.getNextPiece());
+       m_renderPreview.update();
+       m_buttonStart.setText(QString("restart"));
 
-   m_lines = 0;
-   m_level = 0;
-   m_score = 0;
+       m_lines = 0;
+       m_level = 0;
+       m_score = 0;
 
-   m_labelLines.setText(QString("Lines\n0"));
-   m_labelLevel.setText(QString("Level\n0"));
-   m_labelScore.setText(QString("Score\n0"));
+       m_labelLines.setText(QString("Lines\n0"));
+       m_labelLevel.setText(QString("Level\n0"));
+       m_labelScore.setText(QString("Score\n0"));
 
-   m_timer->stop();
-   m_timer->start(500);
+       m_timer->stop();
+       m_timer->start(500);
+   }
 }
 
 void Tetris::gui::MainWindow::update_game_area(){
@@ -173,6 +190,11 @@ void Tetris::gui::MainWindow::keyReleaseEvent(QKeyEvent* e){
             m_board.getCurrentPiece()->setY(m_board.getCurrentPiece()->getY() + 1);
         }
     }
+}
+
+void Tetris::gui::MainWindow::pause_game(){
+    m_timer->stop();
+    m_buttonStart.setText("resume");
 }
 
 void Tetris::gui::MainWindow::change_piece_randomizer(){

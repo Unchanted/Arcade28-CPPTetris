@@ -8,6 +8,7 @@
 #include <QComboBox>
 #include <QKeyEvent>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -36,6 +37,7 @@ namespace Tetris{
         public slots:
             void init_game_area();
             void update_game_area();
+            void pause_game();
             void change_piece_randomizer();
 
         private:
@@ -60,7 +62,7 @@ namespace Tetris{
             QLabel m_labelLines;
             QLabel m_labelLevel;
             QLabel m_labelScore;
-
+            QMessageBox m_messageBox;
             Tetris::gui::RendererGame m_renderGame;
             Tetris::gui::RendererPreview m_renderPreview;
 
@@ -90,4 +92,3 @@ namespace Tetris{
         };
     }
 }
-
