@@ -21,6 +21,9 @@
 
 namespace Tetris{
     namespace gui{
+        /**
+         * @brief MainWindow is the widget representing the main window.
+         */
         class MainWindow : public QMainWindow{
             Q_OBJECT
 
@@ -60,13 +63,19 @@ namespace Tetris{
             QVBoxLayout m_layoutInformations;
             QHBoxLayout m_layoutButtons;
 
-            Tetris::core::Board* m_board;
+            Tetris::core::Board m_board;
 
             QTimer* m_timer;
 
             unsigned m_lines;
             unsigned m_level;
             unsigned m_score;
+
+            // time between two updates in ms.
+            const int time_update = 500;
+
+            // 20% speed increasement on a new level.
+            const double time_decrease_rate = 0.20;
         protected:
             void keyReleaseEvent(QKeyEvent* e) override;
         };

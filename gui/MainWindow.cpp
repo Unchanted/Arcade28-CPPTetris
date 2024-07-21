@@ -1,6 +1,6 @@
 #include "MainWindow.hpp"
 
-Tetris::gui::MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     init_widgets();
@@ -9,20 +9,21 @@ Tetris::gui::MainWindow::MainWindow(QWidget *parent)
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(update_game_area()));
 
-    m_board = new Tetris::core::Board();
+    m_board = new Board();
 }
 
-Tetris::gui::MainWindow::~MainWindow()
+MainWindow::~MainWindow()
 {
 
 }
 
-void Tetris::gui::MainWindow::init_window(){
+void MainWindow::init_window(){
     setFixedSize(800,600);
     setWindowTitle(QString("My Tetris"));
+    move(screen()->geometry().center() - frameGeometry().center());
 }
 
-void Tetris::gui::MainWindow::init_widgets(){
+void MainWindow::init_widgets(){
     QFont labelFont("Courier", 12, QFont::Bold);
     m_buttonStart.setText(QString("start"));
     m_buttonPause.setText(QString("pause"));
@@ -69,10 +70,10 @@ void Tetris::gui::MainWindow::init_widgets(){
     this->setCentralWidget(main_widget);
 }
 
-void Tetris::gui::MainWindow::init_game_area(){
+void MainWindow::init_game_area(){
    m_board->clear();
-   m_board->setCurrentPiece(Tetris::core::TetrominoFactory::generateRandomTetromino());
-   m_board->setNextPiece(Tetris::core::TetrominoFactory::generateRandomTetromino());
+   m_board->setCurrentPiece(TetrominoFactory::generateRandomTetromino());
+   m_board->setNextPiece(TetrominoFactory::generateRandomTetromino());
    m_renderGame.setBoard(m_board);
    m_renderGame.setGameOver(false);
 
@@ -92,11 +93,11 @@ void Tetris::gui::MainWindow::init_game_area(){
    m_timer->start(500);
 }
 
-void Tetris::gui::MainWindow::update_game_area(){
+void MainWindow::update_game_area(){
     if(!m_board->canMoveCurrentPieceDown()){
         m_board->dropCurrentPiece();
         m_board->setCurrentPiece(m_board->getNextPiece());
-        m_board->setNextPiece(Tetris::core::TetrominoFactory::generateRandomTetromino());
+        m_board->setNextPiece(TetrominoFactory::generateRandomTetromino());
         m_renderPreview.setTetromino(m_board->getNextPiece());
         if(int l = m_board->removeCompletedLines()){
             m_lines += l;
@@ -115,7 +116,7 @@ void Tetris::gui::MainWindow::update_game_area(){
     m_renderGame.update();
 }
 
-void Tetris::gui::MainWindow::addScore(const int completedLines){
+void MainWindow::addScore(const int completedLines){
     switch(completedLines) {
         case 1:
             m_score += 40 * (m_level  + 1);
@@ -134,7 +135,7 @@ void Tetris::gui::MainWindow::addScore(const int completedLines){
     }
 }
 
-void Tetris::gui::MainWindow::keyReleaseEvent(QKeyEvent* e){
+void MainWindow::keyReleaseEvent(QKeyEvent* e){
     // Change piece coordinates after checking if it can moves in
     // the pressed direction and rendering the move.
     if(e->key() == Qt::Key_Left){
