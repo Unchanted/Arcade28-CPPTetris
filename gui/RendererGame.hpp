@@ -6,9 +6,13 @@
 #include <QColor>
 
 #include "core/Board.hpp"
+#include "gui/RendererFacilities.hpp"
 
 namespace Tetris{
     namespace gui{
+        /**
+         * @brief RendererGame is a custom OpenGL widget to display the game.
+         */
         class RendererGame : public QOpenGLWidget{
         public:
             RendererGame();
@@ -34,7 +38,6 @@ namespace Tetris{
 
             void setGameOver(const bool);
 
-            void drawBlock(QPainter&, const int, const int, const int, const QColor&);
             void drawGameOverScreen();
 
 

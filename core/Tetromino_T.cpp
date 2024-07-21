@@ -38,3 +38,4 @@ std::array<std::array<char,4>,4> Tetris::core::Tetromino_T::getPiece(int orienta
         {EMPTY_CELL, EMPTY_CELL, EMPTY_CELL, EMPTY_CELL}
     }};
 }
+
