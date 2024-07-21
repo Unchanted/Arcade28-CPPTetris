@@ -58,34 +58,32 @@ namespace Tetris{
              */
             void connectWidgets();
 
-            QPushButton m_buttonStart;
-            QPushButton m_buttonPause;
-            QPushButton m_buttonAbout;
-            QComboBox m_comboRandomizer;
-            QComboBox m_comboLanguage;
-            QLabel m_labelLanguage;
-            QLabel m_labelRandomizer;
-            QLabel m_labelNext;
-            QLabel m_labelLines;
-            QLabel m_labelLevel;
-            QLabel m_labelScore;
-            QMessageBox m_messageBox;
-            Tetris::gui::RendererGame m_renderGame;
-            Tetris::gui::RendererPreview m_renderPreview;
+            QPushButton* m_buttonStart;
+            QPushButton* m_buttonPause;
+            QPushButton* m_buttonAbout;
+            QComboBox* m_comboRandomizer;
+            QComboBox* m_comboLanguage;
+            QLabel* m_labelLanguage;
+            QLabel* m_labelRandomizer;
+            QLabel* m_labelNext;
+            QLabel* m_labelLines;
+            QLabel* m_labelLevel;
+            QLabel* m_labelScore;
+            QMessageBox* m_messageBox;
+            Tetris::gui::RendererGame* m_renderGame;
+            Tetris::gui::RendererPreview* m_renderPreview;
 
-            QHBoxLayout m_layoutMain;
-            QHBoxLayout m_layoutRandomizer;
-            QHBoxLayout m_layoutLanguage;
-            QVBoxLayout m_layoutInformations;
-            QHBoxLayout m_layoutButtons;
+            QHBoxLayout* m_layoutMain;
+            QHBoxLayout* m_layoutRandomizer;
+            QHBoxLayout* m_layoutLanguage;
+            QVBoxLayout* m_layoutInformations;
+            QHBoxLayout* m_layoutButtons;
 
             Tetris::core::Board m_board;
 
             std::unique_ptr<QTimer> m_timer;
 
             std::function<std::unique_ptr<Tetris::core::Tetromino>()> m_pieceRandomizer;
-
-            std::unique_ptr<QWidget> m_mainWidget;
 
             /**
              * @brief m_lines is the number of completed lines.
