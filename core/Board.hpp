@@ -15,11 +15,27 @@ namespace Tetris{
         class Board{
         public:
             Board();
-            void spawnPiece(Tetromino* t);
+
+            /**
+             * @brief clear the whole board with empty cells.
+             */
             void clear();
+
+            /**
+             * @brief eraseLines will remove the board's rows in a given range.
+             * The lines that are above the erased lines will fall to give a
+             * "gravity effect".
+             * @param range is the range of rows to clear.
+             */
+            void eraseLines(const std::pair<int, int>& range);
 
             const auto& getBoard() const;
             void dropCurrentPiece();
+
+            /**
+             * @brief isGameOver checks if the board spawn pieces anymore.
+             * @return true if the board is in a game over state.
+             */
             bool isGameOver() const;
 
             /**
@@ -61,12 +77,10 @@ namespace Tetris{
             std::pair<int, int> hasCompletedLines() const;
 
             /**
-             * @brief clearLines will put empty cells in the given rows range.
-             * @param range is the range of rows to clear.
+             * @brief setCurrentPiece sets the given Tetromino piece as the current moving piece.
+             * @class Board will own the given Tetromino pointer.
+             * @param t is the new Tetromino.
              */
-            void clearLines(std::pair<int, int> range);
-
-
             void setCurrentPiece(std::unique_ptr<Tetris::core::Tetromino> t);
             void setNextPiece(std::unique_ptr<Tetris::core::Tetromino> t);
 

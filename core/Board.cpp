@@ -7,7 +7,19 @@ Tetris::core::Board::Board(){
 void Tetris::core::Board::clear(){
     // Put a '.' char in every board's cell to represent emptiness.
     for(int i = 0; i < m_height; ++i){
-        std::fill(m_board[i].begin(), m_board[i].end(), EMPTY_CELL);
+       std::fill(m_board[i].begin(), m_board[i].end(), EMPTY_CELL);
+    }
+}
+
+void Tetris::core::Board::eraseLines(const std::pair<int, int>& range){
+    int completedLines = range.second - range.first;
+    for(int i = range.first + completedLines - 1; i > completedLines; --i){
+        if(i <= completedLines){
+            for(int j = 0; j < m_width; ++j){m_board[i][j] = EMPTY_CELL;}
+            continue;
+        }for(int j = 0; j < m_width; ++j){
+            m_board[i][j] = m_board[i - completedLines][j];
+        }
     }
 }
 
@@ -87,6 +99,7 @@ bool Tetris::core::Board::canRotateCurrentPiece() const{
     }
     return canRotate;
 }
+
 void Tetris::core::Board::dropCurrentPiece(){
     for(int i = 0; i < 4; ++i){
         for(int j = 0; j < 4; ++j){
@@ -130,19 +143,6 @@ std::pair<int, int> Tetris::core::Board::hasCompletedLines() const{
     }
     return completeLines ? std::pair<int, int>(completeBegin, completeBegin+completeLines) : std::pair<int, int>(0,0);
 }
-
-void Tetris::core::Board::clearLines(std::pair<int, int> range){
-    int completedLines = range.second - range.first;
-    for(int i = range.first + completedLines - 1; i > completedLines; --i){
-        if(i <= completedLines){
-            for(int j = 0; j < m_width; ++j){m_board[i][j] = EMPTY_CELL;}
-            continue;
-        }for(int j = 0; j < m_width; ++j){
-            m_board[i][j] = m_board[i - completedLines][j];
-        }
-    }
-}
-
 
 void Tetris::core::Board::setCurrentPiece(std::unique_ptr<Tetris::core::Tetromino> t){
     m_currentPiece = std::move(t);
