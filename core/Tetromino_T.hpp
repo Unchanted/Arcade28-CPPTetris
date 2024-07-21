@@ -2,13 +2,13 @@
 
 #include "Tetromino.hpp"
 
-#define I_CHAR 'I'
+#define T_CHAR 'T'
 
 namespace Tetris{
     namespace core{
-        class Tetromino_I : public Tetris::core::Tetromino{
+        class Tetromino_T : public Tetris::core::Tetromino{
         public:
-            Tetromino_I();
+            Tetromino_T();
             virtual char getChar() const override;
             virtual std::array<std::array<char,4>,4> getPiece(int orientation) const override;
         };
