@@ -22,112 +22,110 @@
 #include "gui/RendererGame.hpp"
 #include "gui/RendererPreview.hpp"
 
-namespace Tetris{
-    namespace gui{
+namespace Tetris::gui{
+    /**
+     * @brief MainWindow is the widget representing the main window.
+     */
+    class MainWindow : public QMainWindow{
+        Q_OBJECT
+
+    public:
+        MainWindow(QWidget *parent = nullptr);
+        ~MainWindow();
+
+    public slots:
+        void initGameArea();
+        void updateGameArea();
+        void pauseGame();
+        void changePiecePandomizer();
+
+    private:
+        /*
+         * Initialize window' properties (size, position...).
+         * */
+        void initWindow();
+
+        /*
+         * Initialize window' widget' properties.
+         * */
+        void initWidgets();
+
+        void addScore(const int);
+
         /**
-         * @brief MainWindow is the widget representing the main window.
+         * @brief connectWidgets gathers every connection for widgets and their signals.
          */
-        class MainWindow : public QMainWindow{
-            Q_OBJECT
+        void connectWidgets();
 
-        public:
-            MainWindow(QWidget *parent = nullptr);
-            ~MainWindow();
+        QPushButton* m_buttonStart;
+        QPushButton* m_buttonPause;
+        QPushButton* m_buttonAbout;
+        QComboBox* m_comboRandomizer;
+        QComboBox* m_comboLanguage;
+        QLabel* m_labelLanguage;
+        QLabel* m_labelRandomizer;
+        QLabel* m_labelNext;
+        QLabel* m_labelLines;
+        QLabel* m_labelLevel;
+        QLabel* m_labelScore;
+        QMessageBox* m_messageBox;
+        Tetris::gui::RendererGame* m_renderGame;
+        Tetris::gui::RendererPreview* m_renderPreview;
 
-        public slots:
-            void initGameArea();
-            void updateGameArea();
-            void pauseGame();
-            void changePiecePandomizer();
+        QHBoxLayout* m_layoutMain;
+        QHBoxLayout* m_layoutRandomizer;
+        QHBoxLayout* m_layoutLanguage;
+        QVBoxLayout* m_layoutInformations;
+        QHBoxLayout* m_layoutButtons;
 
-        private:
-            /*
-             * Initialize window' properties (size, position...).
-             * */
-            void initWindow();
+        Tetris::core::Board m_board;
 
-            /*
-             * Initialize window' widget' properties.
-             * */
-            void initWidgets();
+        std::unique_ptr<QTimer> m_timer;
 
-            void addScore(const int);
+        std::function<std::unique_ptr<Tetris::core::Tetromino>()> m_pieceRandomizer;
 
-            /**
-             * @brief connectWidgets gathers every connection for widgets and their signals.
-             */
-            void connectWidgets();
+        /**
+         * @brief m_lines is the number of completed lines.
+         */
+        unsigned m_lines;
 
-            QPushButton* m_buttonStart;
-            QPushButton* m_buttonPause;
-            QPushButton* m_buttonAbout;
-            QComboBox* m_comboRandomizer;
-            QComboBox* m_comboLanguage;
-            QLabel* m_labelLanguage;
-            QLabel* m_labelRandomizer;
-            QLabel* m_labelNext;
-            QLabel* m_labelLines;
-            QLabel* m_labelLevel;
-            QLabel* m_labelScore;
-            QMessageBox* m_messageBox;
-            Tetris::gui::RendererGame* m_renderGame;
-            Tetris::gui::RendererPreview* m_renderPreview;
+        /**
+         * @brief m_level is the current game level.
+         */
+        unsigned m_level;
 
-            QHBoxLayout* m_layoutMain;
-            QHBoxLayout* m_layoutRandomizer;
-            QHBoxLayout* m_layoutLanguage;
-            QVBoxLayout* m_layoutInformations;
-            QHBoxLayout* m_layoutButtons;
+        /**
+         * @brief m_score is the total score.
+         */
+        unsigned m_score;
 
-            Tetris::core::Board m_board;
+        /**
+         * @brief m_windowHeight
+         */
+        const int m_windowHeight = 600;
 
-            std::unique_ptr<QTimer> m_timer;
+        /**
+         * @brief m_windowWidth
+         */
+        const int m_windowWidth = 800;
 
-            std::function<std::unique_ptr<Tetris::core::Tetromino>()> m_pieceRandomizer;
+        /**
+         * @brief m_timeUpdate is the time in ms between two render update.
+         */
+        const int m_timeUpdate = 500;
 
-            /**
-             * @brief m_lines is the number of completed lines.
-             */
-            unsigned m_lines;
+        /**
+         * @brief m_timeDecreaseRate is the update's time decrease rate.
+         */
+        const double m_timeDecreaseRate = 0.20;
 
-            /**
-             * @brief m_level is the current game level.
-             */
-            unsigned m_level;
+        /**
+         * @brief m_comboBoxWidth is the width used for comboxBox widgets.
+         */
+        const int m_comboBoxWidth = 150;
 
-            /**
-             * @brief m_score is the total score.
-             */
-            unsigned m_score;
-
-            /**
-             * @brief m_windowHeight
-             */
-            const int m_windowHeight = 600;
-
-            /**
-             * @brief m_windowWidth
-             */
-            const int m_windowWidth = 800;
-
-            /**
-             * @brief m_timeUpdate is the time in ms between two render update.
-             */
-            const int m_timeUpdate = 500;
-
-            /**
-             * @brief m_timeDecreaseRate is the update's time decrease rate.
-             */
-            const double m_timeDecreaseRate = 0.20;
-
-            /**
-             * @brief m_comboBoxWidth is the width used for comboxBox widgets.
-             */
-            const int m_comboBoxWidth = 150;
-
-        protected:
-            void keyReleaseEvent(QKeyEvent* e) override;
-        };
-    }
+    protected:
+        void keyReleaseEvent(QKeyEvent* e) override;
+    };
 }
 
