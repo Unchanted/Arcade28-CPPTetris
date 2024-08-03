@@ -10,10 +10,12 @@ Clone this repo using
 
 cd into the repo folder 
 
-``cd CPPTetris
-cd build/
-make
+``cd CPPTetris <br>
+mkdir build <br>
+cmake .. <br>
+make <br>
 ./Tetris``
 
+# Enjoy
 
 Arcade 28
