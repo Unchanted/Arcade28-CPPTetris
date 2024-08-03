@@ -10,11 +10,7 @@ Clone this repo using
 
 cd into the repo folder 
 
-``cd CPPTetris <br>
-mkdir build <br>
-cmake .. <br>
-make <br>
-./Tetris``
+``cd CPPTetris && mkdir build && cmake .. && make && ./Tetris``
 
 # Enjoy
 
