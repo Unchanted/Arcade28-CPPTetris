@@ -1,0 +1,5 @@
+/home/noted/Documents/dev/project/arcade/Arcade28-CPPTetris/build/CMakeFiles/Tetris.dir
+/home/noted/Documents/dev/project/arcade/Arcade28-CPPTetris/build/CMakeFiles/edit_cache.dir
+/home/noted/Documents/dev/project/arcade/Arcade28-CPPTetris/build/CMakeFiles/rebuild_cache.dir
+/home/noted/Documents/dev/project/arcade/Arcade28-CPPTetris/build/CMakeFiles/Tetris_autogen_timestamp_deps.dir
+/home/noted/Documents/dev/project/arcade/Arcade28-CPPTetris/build/CMakeFiles/Tetris_autogen.dir
