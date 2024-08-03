@@ -12,6 +12,8 @@ cd into the repo folder
 
 ``cd CPPTetris && mkdir build && cd build && cmake .. && make && ./Tetris``
 
+use arrow keys to control the blocks 
+
 # Enjoy
 
 Arcade 28
